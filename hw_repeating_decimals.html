@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework · Repeating Decimals → Fractions · Grade 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #14532D;
+  --green-mid: #166534;
+  --green-light: #E7F0EA;
+  --green-border: #C5D8CB;
+  --gold: #FAC415;
+  --gold-light: #FEF3C7;
+  --navy: #0F172A;
+  --bg: #F5F4EE;
+  --card: #FFFFFF;
+  --muted: #64748B;
+  --border: #E5E7EB;
+  --ok: #15803D;
+  --ok-bg: #DCFCE7;
+  --bad: #DC2626;
+  --bad-bg: #FEE2E2;
+  --radius: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--navy);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* ── Header ── */
+.hw-header {
+  background: var(--green);
+  color: #fff;
+  padding: 1.4rem 1.5rem 1.2rem;
+  border-bottom: 5px solid var(--gold);
+}
+.hw-header h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: .2rem; }
+.hw-header p  { opacity: .82; font-size: .9rem; }
+
+/* ── Layout ── */
+.wrap { max-width: 680px; margin: 0 auto; padding: 1.6rem 1.15rem 5rem; }
+
+/* ── Progress bar ── */
+.progress-row {
+  display: flex; align-items: center; gap: .9rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .75rem 1rem;
+  margin-bottom: 1.4rem;
+}
+.prog-track { flex: 1; height: 8px; background: #E8E4D2; border-radius: 99px; overflow: hidden; }
+.prog-fill  { height: 100%; background: var(--gold); border-radius: 99px; transition: width .4s ease; }
+.prog-label { font-size: .82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+/* ── Reminder card ── */
+.reminder {
+  background: var(--green-light); border: 1px solid var(--green-border);
+  border-left: 5px solid var(--green);
+  border-radius: var(--radius); padding: .9rem 1.1rem;
+  margin-bottom: 1.4rem; font-size: .92rem;
+}
+.reminder strong { color: var(--green-mid); display: block; margin-bottom: .25rem; font-size: .88rem; text-transform: uppercase; letter-spacing: .04em; }
+.reminder .formula { font-family: 'Georgia', serif; font-style: italic; }
+
+/* ── Question card ── */
+.qcard {
+  background: var(--card); border: 1px solid var(--border);
+  border-left: 5px solid var(--gold);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: border-color .25s;
+}
+.qcard.done  { border-left-color: var(--ok); }
+.qcard.wrong { border-left-color: var(--bad); }
+
+.qnum {
+  display: inline-block;
+  background: var(--green); color: #fff;
+  font-size: .72rem; font-weight: 700;
+  padding: .18rem .6rem; border-radius: 4px;
+  letter-spacing: .04em; text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+.qcard.done  .qnum { background: var(--ok); }
+.qcard.wrong .qnum { background: var(--bad); }
+
+.q-text {
+  font-size: 1.05rem; font-weight: 600;
+  margin-bottom: .8rem;
+  font-family: 'Georgia', 'Cambria Math', serif;
+  font-style: italic;
+}
+.q-label { font-family: 'Inter', sans-serif; font-style: normal; font-weight: 600; font-size: 1rem; }
+
+/* ── Input row ── */
+.input-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-bottom: .7rem; }
+.ans-input {
+  border: 2px solid var(--border);
+  border-radius: 8px; padding: .4rem .65rem;
+  font-size: 1rem; width: 130px;
+  font-family: 'Georgia', serif; font-style: italic;
+  background: #fff; transition: border-color .2s, background .2s;
+}
+.ans-input:focus { outline: none; border-color: var(--green); }
+.ans-input.correct { border-color: var(--ok);  background: var(--ok-bg); }
+.ans-input.wrong   { border-color: var(--bad); background: var(--bad-bg); }
+.feedback {
+  font-size: 1rem; font-weight: 800; min-width: 18px;
+  transition: color .2s;
+}
+.feedback.correct { color: var(--ok); }
+.feedback.wrong   { color: var(--bad); }
+
+/* ── Buttons ── */
+.btn-row { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.check-btn {
+  background: var(--green); color: #fff;
+  border: none; border-radius: 8px;
+  padding: .4rem 1rem; font-size: .88rem; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: background .15s;
+}
+.check-btn:hover { background: #0F3D22; }
+.check-btn.done  { background: var(--ok); }
+.check-btn.done::before { content: '✓ '; }
+.hint-btn {
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: .38rem .75rem; font-size: .82rem;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: color .15s, border-color .15s;
+}
+.hint-btn:hover { color: var(--green); border-color: var(--green); }
+
+/* ── Hint box ── */
+.hint-box {
+  display: none;
+  background: var(--gold-light); border-left: 4px solid var(--gold);
+  border-radius: 8px; padding: .55rem .85rem;
+  font-size: .9rem; color: #7C5E11;
+  margin-top: .6rem; line-height: 1.5;
+}
+.hint-box.show { display: block; }
+
+/* ── Result feedback ── */
+.result-box {
+  display: none;
+  border-radius: 8px; padding: .6rem .85rem;
+  font-size: .92rem; font-weight: 600; margin-top: .5rem;
+}
+.result-box.show { display: block; }
+.result-box.ok  { background: var(--ok-bg);  color: var(--ok); }
+.result-box.no  { background: var(--bad-bg); color: var(--bad); }
+
+/* ── Summary card ── */
+.summary {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.4rem 1.2rem;
+  text-align: center; display: none; margin-top: 1.2rem;
+}
+.summary.show { display: block; }
+.summary .score-big { font-size: 2.6rem; font-weight: 800; line-height: 1; }
+.summary .score-sub { color: var(--muted); font-size: .9rem; margin-top: .2rem; margin-bottom: .9rem; }
+.summary .msg { font-size: .95rem; color: var(--navy); }
+
+/* ── Reset ── */
+.reset-btn {
+  display: block; margin: 1.2rem auto 0;
+  background: var(--card); color: var(--muted);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: .42rem .9rem; font-size: .82rem;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+}
+.reset-btn:hover { color: var(--navy); border-color: #aaa; }
+
+footer {
+  text-align: center; padding: 2rem 1rem;
+  color: var(--muted); font-size: .82rem;
+  border-top: 1px solid var(--border); margin-top: 3rem;
+}
+</style>
+</head>
+<body>
+
+<header class="hw-header">
+  <h1>Homework · Repeating Decimals → Fractions</h1>
+  <p>Grade 8 Mathematics · Number System · 8.NS.A.1 &nbsp;|&nbsp; 5 questions &nbsp;·&nbsp; Work through each one. Enter fractions like 4/9</p>
+</header>
+
+<div class="wrap">
+
+  <!-- Progress -->
+  <div class="progress-row">
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-label" id="progLabel">0 / 5 done</div>
+  </div>
+
+  <!-- Method reminder -->
+  <div class="reminder">
+    <strong>🔑 The method — multiply &amp; subtract</strong>
+    <p>
+      Let <span class="formula">x</span> equal the decimal.
+      Multiply by a power of 10 so the repeating block lines up exactly.
+      Subtract to cancel the repeat. Solve for <span class="formula">x</span>.<br>
+      <strong>1 repeating digit → multiply by 10 &nbsp;·&nbsp; 2 repeating digits → multiply by 100</strong>
+    </p>
+  </div>
+
+  <!-- ── Q1 ── -->
+  <div class="qcard" id="qcard-1">
+    <div class="qnum" id="qlabel-1">Question 1</div>
+    <div class="q-text">
+      <span class="q-label">Convert</span> 0.333… to a fraction in lowest terms.
+    </div>
+    <div class="input-row">
+      <input type="text" class="ans-input" id="inp-1" placeholder="e.g. 1/3" autocomplete="off">
+      <span class="feedback" id="fb-1"></span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" id="check-1" onclick="checkQ(1)">Check</button>
+    </div>
+    <div class="result-box" id="result-1"></div>
+  </div>
+
+  <!-- ── Q2 ── -->
+  <div class="qcard" id="qcard-2">
+    <div class="qnum" id="qlabel-2">Question 2</div>
+    <div class="q-text">
+      <span class="q-label">Convert</span> 0.777… to a fraction in lowest terms.
+    </div>
+    <div class="input-row">
+      <input type="text" class="ans-input" id="inp-2" placeholder="e.g. 7/9" autocomplete="off">
+      <span class="feedback" id="fb-2"></span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" id="check-2" onclick="checkQ(2)">Check</button>
+    </div>
+    <div class="result-box" id="result-2"></div>
+  </div>
+
+  <!-- ── Q3 ── -->
+  <div class="qcard" id="qcard-3">
+    <div class="qnum" id="qlabel-3">Question 3</div>
+    <div class="q-text">
+      <span class="q-label">Convert</span> 0.1111… to a fraction in lowest terms.
+    </div>
+    <div class="input-row">
+      <input type="text" class="ans-input" id="inp-3" placeholder="e.g. 1/9" autocomplete="off">
+      <span class="feedback" id="fb-3"></span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" id="check-3" onclick="checkQ(3)">Check</button>
+      <button class="hint-btn" onclick="toggleHint(3)">Hint</button>
+    </div>
+    <div class="hint-box" id="hint-3">
+      Use the same steps as Q1 and Q2. Let x = 0.1111…, then 10x = 1.1111… Subtract and solve.
+    </div>
+    <div class="result-box" id="result-3"></div>
+  </div>
+
+  <!-- ── Q4 ── -->
+  <div class="qcard" id="qcard-4">
+    <div class="qnum" id="qlabel-4">Question 4</div>
+    <div class="q-text">
+      <span class="q-label">Convert</span> 0.4545… to a fraction in lowest terms.
+    </div>
+    <div class="input-row">
+      <input type="text" class="ans-input" id="inp-4" placeholder="e.g. 5/11" autocomplete="off">
+      <span class="feedback" id="fb-4"></span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" id="check-4" onclick="checkQ(4)">Check</button>
+      <button class="hint-btn" onclick="toggleHint(4)">Hint</button>
+    </div>
+    <div class="hint-box" id="hint-4">
+      Two digits are repeating, not one. What do you need to multiply by to move <em>two</em> decimal places?
+    </div>
+    <div class="result-box" id="result-4"></div>
+  </div>
+
+  <!-- ── Q5 ── -->
+  <div class="qcard" id="qcard-5">
+    <div class="qnum" id="qlabel-5">Question 5</div>
+    <div class="q-text">
+      <span class="q-label">Convert</span> 0.181818… to a fraction in lowest terms.
+    </div>
+    <div class="input-row">
+      <input type="text" class="ans-input" id="inp-5" placeholder="e.g. 2/11" autocomplete="off">
+      <span class="feedback" id="fb-5"></span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" id="check-5" onclick="checkQ(5)">Check</button>
+      <button class="hint-btn" onclick="toggleHint(5)">Hint</button>
+    </div>
+    <div class="hint-box" id="hint-5">
+      Count how many digits are in the repeating block. Multiply by a power of 10 that shifts the whole block to the left of the decimal point, then subtract.
+    </div>
+    <div class="result-box" id="result-5"></div>
+  </div>
+
+  <!-- ── Summary ── -->
+  <div class="summary" id="summary">
+    <div class="score-big" id="sum-score"></div>
+    <div class="score-sub">Homework complete</div>
+    <p class="msg" id="sum-msg"></p>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">↺ Reset all answers</button>
+
+</div>
+
+<footer>Grade 8 Mathematics · Repeating Decimals → Fractions · 8.NS.A.1</footer>
+
+<script>
+// ── Answer data ──────────────────────────────────────────────
+// Accepted answers stored as "numerator/denominator" fractions.
+// Multiple accepted forms listed (unsimplified forms also validated numerically).
+var ANSWERS = {
+  1: { exact: 1/3,   display: '1/3' },
+  2: { exact: 7/9,   display: '7/9' },
+  3: { exact: 1/9,   display: '1/9' },
+  4: { exact: 5/11,  display: '5/11' },
+  5: { exact: 2/11,  display: '2/11' },
+};
+
+var EXPLANATIONS = {
+  1: 'Let x = 0.333… → 10x = 3.333… → 10x − x = 3 → 9x = 3 → x = 3/9 = <strong>1/3</strong>',
+  2: 'Let x = 0.777… → 10x = 7.777… → 9x = 7 → x = <strong>7/9</strong>',
+  3: 'Let x = 0.1111… → 10x = 1.1111… → 9x = 1 → x = <strong>1/9</strong>',
+  4: 'Two digits repeat, so multiply by 100. Let x = 0.4545… → 100x = 45.4545… → 99x = 45 → x = 45/99 = <strong>5/11</strong>',
+  5: 'Two digits repeat: "18". → 100x = 18.1818… → 99x = 18 → x = 18/99 = <strong>2/11</strong>',
+};
+
+// ── State ────────────────────────────────────────────────────
+var state = {};  // { 1: true/false, ... }
+
+// ── GCD for lowest-terms check ───────────────────────────────
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = b; b = a % b; a = t; } return a; }
+function isLowest(n, d) { return gcd(n, d) === 1; }
+
+// ── Parse fraction string ────────────────────────────────────
+function parseFrac(s) {
+  s = s.trim().replace(/\s+/g, '');
+  var m = s.match(/^(-?\d+)\/(-?\d+)$/);
+  if (m) {
+    var num = parseInt(m[1], 10), den = parseInt(m[2], 10);
+    if (den === 0) return null;
+    return { num: num, den: den, val: num / den };
+  }
+  // plain integer or decimal also accepted
+  if (/^-?\d+(\.\d+)?$/.test(s)) return { num: parseFloat(s), den: 1, val: parseFloat(s) };
+  return null;
+}
+
+// ── Check one question ───────────────────────────────────────
+function checkQ(n) {
+  var inp     = document.getElementById('inp-' + n);
+  var fbEl    = document.getElementById('fb-' + n);
+  var resEl   = document.getElementById('result-' + n);
+  var btnEl   = document.getElementById('check-' + n);
+  var cardEl  = document.getElementById('qcard-' + n);
+  var lblEl   = document.getElementById('qlabel-' + n);
+  var raw     = inp.value.trim();
+
+  if (!raw) return;
+
+  var parsed  = parseFrac(raw);
+  var ans     = ANSWERS[n];
+  var correct = false;
+  var nudge   = '';
+
+  if (parsed !== null) {
+    correct = Math.abs(parsed.val - ans.exact) < 1e-9;
+    if (correct && parsed.den !== 1 && !isLowest(parsed.num, parsed.den)) {
+      nudge = ' — correct value, but simplify to lowest terms (e.g. ' + ans.display + ')';
+      correct = false; // require lowest terms
+    }
+  }
+
+  inp.classList.remove('correct', 'wrong');
+  fbEl.classList.remove('correct', 'wrong');
+  cardEl.classList.remove('done', 'wrong');
+  resEl.classList.remove('show', 'ok', 'no');
+
+  if (correct) {
+    inp.classList.add('correct');
+    fbEl.classList.add('correct');
+    fbEl.textContent = '✓';
+    cardEl.classList.add('done');
+    lblEl.textContent = '✓ Question ' + n;
+    btnEl.classList.add('done');
+    btnEl.textContent = 'Correct';
+    btnEl.disabled = true;
+    inp.disabled = true;
+    resEl.classList.add('show', 'ok');
+    resEl.innerHTML = '<strong>Correct!</strong> ' + EXPLANATIONS[n];
+    state[n] = true;
+  } else {
+    inp.classList.add('wrong');
+    fbEl.classList.add('wrong');
+    fbEl.textContent = '✗';
+    cardEl.classList.add('wrong');
+    resEl.classList.add('show', 'no');
+    if (nudge) {
+      resEl.innerHTML = '<strong>Almost!</strong>' + nudge;
+    } else if (parsed === null) {
+      resEl.textContent = 'Enter your answer as a fraction, e.g. 5/11';
+    } else {
+      resEl.textContent = 'Not quite — try again, or use the hint.';
+    }
+    state[n] = false;
+  }
+
+  updateProgress();
+  checkSummary();
+}
+
+// ── Enter key on inputs ──────────────────────────────────────
+for (var i = 1; i <= 5; i++) {
+  (function(n) {
+    document.getElementById('inp-' + n).addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkQ(n);
+    });
+  })(i);
+}
+
+// ── Hint toggle ──────────────────────────────────────────────
+function toggleHint(n) {
+  var h = document.getElementById('hint-' + n);
+  h.classList.toggle('show');
+}
+
+// ── Progress bar ─────────────────────────────────────────────
+function updateProgress() {
+  var done = Object.values(state).filter(Boolean).length;
+  var pct  = Math.round(done / 5 * 100);
+  document.getElementById('progFill').style.width  = pct + '%';
+  document.getElementById('progLabel').textContent = done + ' / 5 done';
+}
+
+// ── Summary ──────────────────────────────────────────────────
+function checkSummary() {
+  var done    = Object.keys(state).length;
+  var correct = Object.values(state).filter(Boolean).length;
+  if (done < 5) return;  // not all attempted yet
+  var sumEl = document.getElementById('summary');
+  sumEl.classList.add('show');
+  document.getElementById('sum-score').textContent = correct + ' / 5';
+  var msgs = {
+    5: '🏆 Perfect score — excellent work!',
+    4: '🎉 Great job — review the one you missed and make sure you understand why.',
+    3: '👍 Good effort — look back over the explanations for the ones you got wrong.',
+    2: 'Keep going — re-read the method card and try the questions you missed again.',
+    1: 'Don\'t give up — work through the explanation for each wrong answer carefully.',
+    0: 'Review the method at the top and have another try — you can do this.',
+  };
+  document.getElementById('sum-msg').textContent = msgs[correct] || '';
+  window.scrollTo({ top: document.getElementById('summary').offsetTop - 20, behavior: 'smooth' });
+}
+
+// ── Reset ─────────────────────────────────────────────────────
+function resetAll() {
+  if (!confirm('Reset all answers and start over?')) return;
+  state = {};
+  for (var n = 1; n <= 5; n++) {
+    var inp    = document.getElementById('inp-' + n);
+    var fbEl   = document.getElementById('fb-' + n);
+    var resEl  = document.getElementById('result-' + n);
+    var btnEl  = document.getElementById('check-' + n);
+    var cardEl = document.getElementById('qcard-' + n);
+    var lblEl  = document.getElementById('qlabel-' + n);
+    inp.value = ''; inp.disabled = false;
+    inp.classList.remove('correct', 'wrong');
+    fbEl.textContent = ''; fbEl.classList.remove('correct', 'wrong');
+    resEl.className = 'result-box';
+    btnEl.className = 'check-btn'; btnEl.disabled = false; btnEl.textContent = 'Check';
+    cardEl.classList.remove('done', 'wrong');
+    lblEl.textContent = 'Question ' + n;
+    var hintEl = document.getElementById('hint-' + n);
+    if (hintEl) hintEl.classList.remove('show');
+  }
+  document.getElementById('summary').classList.remove('show');
+  updateProgress();
+}
+</script>
+</body>
+</html>
